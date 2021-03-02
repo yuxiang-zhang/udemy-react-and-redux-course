@@ -16,7 +16,7 @@ const items = [
     },
 ];
 
-export default () => {
+export default function render() {
     return (
         <div>
             <Accordion items={items} />
