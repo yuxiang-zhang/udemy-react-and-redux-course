@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { useState } from "react";
 
-const Dropdown = ({ options }) => {
-    const renderedOptions = options.map(option => {
+const Dropdown = ({ options, selected, onSelectedChange }) => {
+    const [open, setOpen] = useState(false);
+
+    const renderedOptions = options.map((option) => {
         return (
-            <div key={option.value} className="item">
-                {option.label}
-            </div>
+            option.value !== selected.value && (
+                <div
+                    key={option.value}
+                    className="item"
+                    onClick={() => onSelectedChange(option)}
+                >
+                    {option.label}
+                </div>
+            )
         );
     });
 
@@ -13,10 +21,16 @@ const Dropdown = ({ options }) => {
         <div className="ui form">
             <div className="field">
                 <label className="label"> Select an option </label>
-                <div className="ui selection dropdown visible active">
+                <div
+                    className={`ui selection dropdown ${
+                        open && "visible active"
+                    }`}
+                    onMouseEnter={() => setOpen(true)}
+                    onMouseLeave={() => setOpen(false)}
+                >
                     <i className="dropdown icon"></i>
-                    <div className="text">Select Option</div>
-                    <div className="menu visible transition">
+                    <div className="text">{selected.label}</div>
+                    <div className={`menu ${open && "visible transition"} `}>
                         {renderedOptions}
                     </div>
                 </div>
