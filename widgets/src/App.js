@@ -34,10 +34,21 @@ const options = [
   },
 ];
 
+const showAccordion = () => {
+  return window.location.pathname === '/' && <Accordion items={items} />;
+};
+
+const showComponent = (path, component) => {
+  return window.location.pathname === path && component;
+};
+
 export default () => {
   return (
     <div>
-      <Translate />
+      {showAccordion ()}
+      {showComponent ('/translate', <Translate />)}
+      {showComponent ('/list', <Search />)}
+      {showComponent ('/dropdown', <Dropdown />)}
     </div>
   );
 };
