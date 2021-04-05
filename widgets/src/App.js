@@ -1,48 +1,53 @@
-import React, { useState } from "react";
-import Accordion from "./components/Accordion";
-import Search from "./components/Search";
-import Dropdown from "./components/Dropdown";
+import React, {useState} from 'react';
+import Accordion from './components/Accordion';
+import Search from './components/Search';
+import Dropdown from './components/Dropdown';
 
 const items = [
-    {
-        title: "What is React?",
-        content: "React is a front end javascript framework",
-    },
-    {
-        title: "Why use React?",
-        content: "React is a favourite JS library among engineers",
-    },
-    {
-        title: "HOw?",
-        content: "components",
-    },
+  {
+    title: 'What is React?',
+    content: 'React is a front end javascript framework',
+  },
+  {
+    title: 'Why use React?',
+    content: 'React is a favourite JS library among engineers',
+  },
+  {
+    title: 'HOw?',
+    content: 'components',
+  },
 ];
 
 const options = [
-    {
-        label: "first option",
-        value: "option1",
-    },
-    {
-        label: "second option",
-        value: "option2",
-    },
-    {
-        label: "third option",
-        value: "option3",
-    },
+  {
+    label: 'first option',
+    value: 'option1',
+  },
+  {
+    label: 'second option',
+    value: 'option2',
+  },
+  {
+    label: 'third option',
+    value: 'option3',
+  },
 ];
 
 export default () => {
-    const [selected, setSelected] = useState(options[0]);
+  const [selected, setSelected] = useState (options[0]);
+  const [showDropdown, setShowDropdown] = useState (true);
 
-    return (
-        <div>
-            <Dropdown
-                selected={selected}
-                onSelectedChange={setSelected}
-                options={options}
-            />
-        </div>
-    );
-}
+  return (
+    <div>
+      <button onClick={() => setShowDropdown (!showDropdown)}>
+        Toggle Dropdown
+      </button>
+      {showDropdown &&
+        <Dropdown
+          selected={selected}
+          onSelectedChange={setSelected}
+          options={options}
+        />}
+    </div>
+  );
+};
