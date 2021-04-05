@@ -1,42 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from 'react'
 
 const Dropdown = ({ options, selected, onSelectedChange }) => {
-    const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
+  const ref = useRef()
 
-    const renderedOptions = options.map((option) => {
-        return (
-            option.value !== selected.value && (
-                <div
-                    key={option.value}
-                    className="item"
-                    onClick={() => onSelectedChange(option)}
-                >
-                    {option.label}
-                </div>
-            )
-        );
-    });
+  useEffect(() => {
+    document.body.addEventListener(
+      'click',
+      e => {
+        if (!ref.current.contains(e.target)) setOpen(false)
+      },
+      { capture: true }
+    )
+  }, [])
+
+  const renderedOptions = options.map(option => {
+    if (option.value === selected.value) {
+      return null
+    }
 
     return (
-        <div className="ui form">
-            <div className="field">
-                <label className="label"> Select an option </label>
-                <div
-                    className={`ui selection dropdown ${
-                        open && "visible active"
-                    }`}
-                    onMouseEnter={() => setOpen(true)}
-                    onMouseLeave={() => setOpen(false)}
-                >
-                    <i className="dropdown icon"></i>
-                    <div className="text">{selected.label}</div>
-                    <div className={`menu ${open && "visible transition"} `}>
-                        {renderedOptions}
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-};
+      <div
+        key={option.value}
+        className='item'
+        onClick={() => onSelectedChange(option)}
+      >
+        {option.label}
+      </div>
+    )
+  })
 
-export default Dropdown;
+  return (
+    <div ref={ref} className='ui form'>
+      <div className='field'>
+        <label className='label'>Select a Color</label>
+        <div
+          onClick={() => setOpen(!open)}
+          className={`ui selection dropdown ${open && 'visible active'}`}
+        >
+          <i className='dropdown icon'></i>
+          <div className='text'>{selected.label}</div>
+          <div className={`menu ${open && 'visible transition'}`}>
+            {renderedOptions}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default Dropdown
